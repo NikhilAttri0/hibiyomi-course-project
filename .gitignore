@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+.venv/
+__pycache__/
+
+# Next.js build output
+.next/
+out/
+.swc/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets — never commit these
+.env
+.env.local
+.env.*.local
+
+# ML artefacts
+ml/models/
+ml/data/
+
+# OS / editor
+.DS_Store
+.vercel
+
+/data/
+.env*

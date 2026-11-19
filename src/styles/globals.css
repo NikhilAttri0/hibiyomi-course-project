@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Yoisho design tokens — warm cream paper, persimmon orange, sumi ink.
+   Values are "R G B" triples consumed by tailwind.config.js.
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Plus Jakarta Sans';
+  --font-jp: 'Noto Sans JP';
+  --font-mincho: 'Shippori Mincho';
+
+  --canvas: 239 236 227;      /* #EFECE3 warm cream page */
+  --paper: 247 245 239;       /* #F7F5EF raised cream */
+  --surface: 255 255 255;     /* cards */
+  --sunken: 232 228 216;      /* inputs, tracks */
+  --ink: 20 20 20;            /* #141414 */
+  --ink-2: 74 70 62;
+  --ink-3: 128 122 110;
+  --line: 224 218 204;
+
+  --brand: 225 140 69;        /* #E18C45 persimmon */
+  --brand-strong: 196 108 40;
+  --brand-soft: 251 233 214;
+  --brand-ink: 255 255 255;
+
+  --sumi: 28 26 23;           /* deep ink panels */
+  --matcha: 79 135 92;
+  --matcha-soft: 223 236 222;
+  --sakura: 205 82 98;
+  --sakura-soft: 249 224 226;
+  --ai: 63 92 145;            /* indigo */
+  --ai-soft: 222 230 244;
+  --kin: 196 146 42;          /* gold */
+  --kin-soft: 247 236 206;
+
+  --shadow: 60 44 20;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --canvas: 19 18 16;
+  --paper: 26 24 21;
+  --surface: 33 31 27;
+  --sunken: 44 41 36;
+  --ink: 243 238 228;
+  --ink-2: 200 193 180;
+  --ink-3: 146 139 126;
+  --line: 54 50 44;
+
+  --brand: 236 154 88;
+  --brand-strong: 245 175 115;
+  --brand-soft: 64 42 24;
+  --brand-ink: 26 18 10;
+
+  --sumi: 12 11 10;
+  --matcha: 122 180 132;
+  --matcha-soft: 30 48 34;
+  --sakura: 236 120 134;
+  --sakura-soft: 60 28 32;
+  --ai: 132 160 220;
+  --ai-soft: 30 38 60;
+  --kin: 226 182 86;
+  --kin-soft: 56 44 18;
+
+  --shadow: 0 0 0;
+  color-scheme: dark;
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  ::selection { background: rgb(var(--brand) / 0.3); }
+  :focus-visible { outline: 2px solid rgb(var(--brand)); outline-offset: 2px; border-radius: 10px; }
+  button { -webkit-user-select: none; user-select: none; }
+}
+
+@layer components {
+  .card { @apply bg-surface rounded-3xl border border-line/70 shadow-card; }
+  .card-pad { @apply p-5 sm:p-6; }
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-3; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 h-11 text-sm font-semibold transition-all duration-150 active:scale-[.97] disabled:opacity-40 disabled:pointer-events-none; }
+  .btn-primary { @apply btn bg-brand text-brand-ink shadow-brand hover:bg-brand-strong; }
+  .btn-dark { @apply btn bg-ink text-canvas hover:opacity-90; }
+  .btn-ghost { @apply btn bg-surface border border-line text-ink hover:border-ink/30; }
+  .btn-sm { @apply h-9 px-4 text-[13px]; }
+
+  .input { @apply w-full h-11 rounded-2xl bg-sunken/70 border border-transparent px-4 text-sm text-ink placeholder:text-ink-3 outline-none focus:border-brand focus:bg-surface transition; }
+
+  /* seigaiha (wave) pattern used on hero panels */
+  .seigaiha {
+    background-image: radial-gradient(circle at 50% 100%, transparent 38%, rgb(255 255 255 / .16) 39%, rgb(255 255 255 / .16) 42%, transparent 43%, transparent 54%, rgb(255 255 255 / .12) 55%, rgb(255 255 255 / .12) 58%, transparent 59%, transparent 70%, rgb(255 255 255 / .08) 71%, rgb(255 255 255 / .08) 74%, transparent 75%);
+    background-size: 56px 28px;
+  }
+  .paper-grain {
+    background-image: radial-gradient(rgb(var(--ink) / 0.035) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+}
+
+@layer utilities {
+  .perspective { perspective: 1400px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .tabular { font-variant-numeric: tabular-nums; }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgb(var(--ink) / 0.14); border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Printable reports (Save as PDF) */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: #fff !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* Stroke-order animation (paths use pathLength=1) */
+@keyframes kvg-draw { to { stroke-dashoffset: 0; } }
